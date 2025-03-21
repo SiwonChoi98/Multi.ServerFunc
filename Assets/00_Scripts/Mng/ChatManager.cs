@@ -19,10 +19,10 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void Initalize()
     {
-        /*if(string.IsNullOrEmpty(PhotonNetwork.NickName))
+        if(string.IsNullOrEmpty(PhotonNetwork.NickName))
         {
-            PhotonNetwork.NickName = BaseManager.Firebase.NickName;
-        }*/
+            PhotonNetwork.NickName = $"Player_{PhotonNetwork.LocalPlayer.ActorNumber}"; //BaseManager.Firebase.NickName;
+        }
 
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
@@ -40,8 +40,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     {
         if(!string.IsNullOrEmpty(message))
         {
-            //chatClient.PublishMessage(chatChannel, message);
-            chatClient.PublishMessage(chatChannel, $"{PhotonNetwork.NickName} : {message}");
+            chatClient.PublishMessage(chatChannel, message);
         }
     }
 
@@ -108,7 +107,10 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnDisconnected()
     {
         Debug.Log("Photon Disconnected!");
+
     }
+
+    //RPC로도 처리가능하지만 통일성을 위해 OnGetMessages으로 처리
     // 특정 채널에서 메세지를 수신했을 때 호출된다. (서버가 여러개 일 때) 예) 파티채널, 길드채널 등등
     // channelName : 메세지가 수신된 채널 이름 , senders : 메세지를 보낸 사용자 이름 배열 , messages : 수신된 메세지 배열
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
@@ -120,6 +122,8 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
             ChatUIManager.instance.DisplayMessage(receivedMessage);
 
+            //현재 이게임에 포함되어 있는 모든 플레이어를 가져와서 조건에 맞는 첫번쨰 플레이어를 반환 (
+            //플레이어 목록에서 닉네임이 현재 메세지 발신자인 senders[i]와 일치하는가?)
             Player senderPlayer = PhotonNetwork.PlayerList.FirstOrDefault(p => p.NickName == senders[i]);
             if (senderPlayer != null)
             {

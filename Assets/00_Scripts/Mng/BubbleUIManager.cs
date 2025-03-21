@@ -19,8 +19,11 @@ public class BubbleUIManager : MonoBehaviourPunCallbacks
 
     public void InitalzieBubble()
     {
+        //자기자신을 호출
         CreateBubbleForPlayer(PhotonNetwork.LocalPlayer.ActorNumber);
 
+        //자기자신이 들어왔을 때 다른 플레이어보다 늦게 들어왔을 때 대비 처리
+        //본인이 늦게 들어와도 기존에 있던 다른 플레이어들의 말풍선을 미리 만들 수 있음
         foreach(Player player in PhotonNetwork.PlayerList)
         {
             if ((player.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber))
@@ -30,11 +33,12 @@ public class BubbleUIManager : MonoBehaviourPunCallbacks
         }
     }
 
+    //플레이어가 방에 들어왔을 때 호출 (자기 자신은 호출하지 않음)
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         CreateBubbleForPlayer(newPlayer.ActorNumber);
     }
-
+    //플레이어가 방에 떠났을 때 호출
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         RemoveBubbleForPlayer(otherPlayer.ActorNumber);

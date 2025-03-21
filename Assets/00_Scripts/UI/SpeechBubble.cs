@@ -36,6 +36,8 @@ public class SpeechBubble : MonoBehaviour
         return null;
     }
 
+    //컨텐츠 사이즈 필터는 기존에 사이즈에 따른 텍스트 양에 따라서 크기가 변경되게 만들었는데
+    //한번 껐다가 켜줘야 바뀌는 경우도 있어서 이를 참고하면 좋음
     public void SetText(string message)
     {
         if(coroutine != null)
@@ -44,13 +46,13 @@ public class SpeechBubble : MonoBehaviour
             coroutine = StartCoroutine(HideCoroutine(0.0f, () =>
             {
                 SpeechText.text = message;
-                animator.Play("SpeehBubble_Open");
+                animator.Play("SpeechBubble_Open");
                 coroutine = StartCoroutine(HideCoroutine(3.0f, null));
             }));
             return;
         }
         SpeechText.text = message;
-        animator.Play("SpeehBubble_Open");
+        animator.Play("SpeechBubble_Open");
         coroutine = StartCoroutine(HideCoroutine(3.0f,null));
     }
 
