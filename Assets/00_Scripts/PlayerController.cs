@@ -21,6 +21,10 @@ public class PlayerController : MonoBehaviour
         if(isMinePhoton())
         {
             OwnerActorNumber = actorNumber;
+            
+            //AllBuffered 은 ALL 과 유사하지만 AllBuffered는 아직 방에 참여하지 않은 유저도 보관을 한다.
+            //여기서 먼저 호출을 해주면 이후에 들어오는 플레이어도 RPC가 다시 실행됨 
+            //ALL은 현재 기점으로 접속중인 플레이어만 호출됨
             view.RPC("SetActorNumber", RpcTarget.AllBuffered, actorNumber);
         }
     }
@@ -30,7 +34,7 @@ public class PlayerController : MonoBehaviour
         return view.IsMine;
     }
 
-    // RPC : Remote Procedure Call -  ��Ʈ��ũ ���� �ٸ� �÷��̾ ���� ���� Ư�� �޼��带 ȣ��
+    // RPC : Remote Procedure Call - 네트워크 상의 다른 플레이어가 실행 중인 특정 메서드를 호출
     [PunRPC]
     public void SetActorNumber(int actorNumber)
     {

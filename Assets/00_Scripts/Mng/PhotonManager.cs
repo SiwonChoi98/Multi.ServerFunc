@@ -39,8 +39,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         //PhotonNetwork.Instantiate는 Resource내부의 프리팹 이름을 가져오게 되어있음
         GameObject playerObject = PhotonNetwork.Instantiate("PlayerPrefab", spawnPosition, Quaternion.identity);
 
-        //int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-        //playerObject.GetComponent<PlayerController>().Initalize(actorNumber);
+        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        playerObject.GetComponent<PlayerController>().Initalize(actorNumber);
         //Camera.main.GetComponent<CameraController>().Initalize(playerObject.transform);
 
         PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
