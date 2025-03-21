@@ -19,32 +19,36 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     public void Initalize()
     {
-        if(string.IsNullOrEmpty(PhotonNetwork.NickName))
+        /*if(string.IsNullOrEmpty(PhotonNetwork.NickName))
         {
             PhotonNetwork.NickName = BaseManager.Firebase.NickName;
-        }
+        }*/
 
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
             PhotonNetwork.AppVersion, new Photon.Chat.AuthenticationValues(PhotonNetwork.NickName));
     }
 
+    //í”„ë ˆì„ ë§ˆë‹¤ ì–´ë–¤ ë©”ì„¸ì§€ê°€ ë³´ë‚´ì¡ŒëŠ”ì§€ í™•ì¸
     private void Update()
     {
         chatClient?.Service();
     }
 
+    //ì±„íŒ… ë³´ë‚´ê¸°
     public void SendMeesageToChat(string message)
     {
         if(!string.IsNullOrEmpty(message))
         {
-            chatClient.PublishMessage(chatChannel, message);
+            //chatClient.PublishMessage(chatChannel, message);
+            chatClient.PublishMessage(chatChannel, $"{PhotonNetwork.NickName} : {message}");
         }
     }
 
     #region ChatClient_Interface
-    // Photon.Chat Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¹ß»ıÇÏ´Â µğ¹ö±ë ¸Ş½ÃÁö¸¦ Ã³¸®ÇÕ´Ï´Ù.
-    // ¸Å°³º¯¼ö - level(Error, Warning, Info), message(µğ¹ö±ë ¸Ş½ÃÁö)
+    // Photon.Chat í´ë¼ì´ì–¸íŠ¸ì—ì„œ ë°œìƒí•˜ëŠ” ë””ë²„ê¹… ë©”ì„¸ì§€ë¥¼ ì²˜ë¦¬í•œë‹¤.
+    // ë§¤ê°œë³€ìˆ˜ - level(Error(ì‹¬ê°), Warning(ê²½ê³ ), Info(ì •ë³´)), message(ë””ë²„ê¹… ë©”ì„¸ì§€)
+    //ì „ë‹¬ëœ ë©”ì„¸ì§€ê°€ ìˆë‹¤ë©´ Debugê°€ ë…¸ì¶œë¨
     public void DebugReturn(DebugLevel level, string message)
     {
         switch(level)
@@ -61,16 +65,16 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         }
     }
     
-    // Photon.Chat Å¬¶óÀÌ¾ğÆ®ÀÇ »óÅÂ°¡ º¯°æµÉ ¶§ È£ÃâµË´Ï´Ù.
-    // ¸Å°³º¯¼ö : state(ChatState ¿­°ÅÇü °ª (ENUM), Å¬¶óÀÌ¾ğÆ®ÀÇ ÇöÀç »óÅÂ (Connected, Connecting, Disconnected)
+    // Photon.Chat í´ë¼ì´ì–¸íŠ¸ì˜ ìƒíƒœê°€ ë³€ê²½ë  ë•Œ í˜¸ì¶œëœë‹¤.
+    // ë§¤ê°œë³€ìˆ˜ : state(ChatState ì—´ê±°í˜• ê°’ (ENUM), í´ë¼ì´ì–¸íŠ¸ì˜ í˜„ì¬ ìƒíƒœ (Connected, Connecting, Disconnected)
     public void OnChatStateChange(ChatState state)
     {
         Debug.Log($"Chat State Changed: {state}");
         ///
-        /// ConnectedToNameServer : Name Server¿ÍÀÇ ¿¬°áÀÌ ¿Ï·áµÈ »óÅÂ
-        /// Authenticated : ÀÎÁõÀÌ ¿Ï·áµÇ¾î Ã¤ÆÃ ¼­¹ö¿Í ¿¬°áÇÒ ÁØºñ°¡ µÈ »óÅÂ
-        /// Disconnected : ¿¬°áÀÌ ²÷±ä »óÅÂ
-        /// ConnectedToFrontEnd : Front-End ¼­¹ö¿Í ¿¬°áµÈ »óÅÂ
+        /// ConnectedToNameServer : Name Serverì™€ì˜ ì—°ê²°ì´ ì™„ë£Œëœ ìƒíƒœ
+        /// Authenticated : ì¸ì¦ì´ ì™„ë£Œë˜ì–´ ì±„íŒ… ì„œë²„ì™€ ì—°ê²°í•  ì¤€ë¹„ê°€ ëœ ìƒíƒœ
+        /// Disconnected : ì—°ê²°ì´ ëŠê¸´ ìƒíƒœ
+        /// ConnectedToFrontEnd : Front-End ì„œë²„ì™€ ì—°ê²°ëœ ìƒíƒœ
         ///
         switch(state)
         {
@@ -92,21 +96,21 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         }
     }
 
-    // Photon.Chat ¼­¹ö¿Í ¿¬°áÀÌ µÇ¾úÀ» ¶§ È£ÃâµË´Ï´Ù.
+    // Photon.Chat ì„œë²„ì™€ ì—°ê²°ì´ ë˜ì—ˆì„ ë•Œ í˜¸ì¶œ
     public void OnConnected()
     {
-        Debug.Log("Photon Connected!");
+        Debug.Log("Photon Connected!"); 
 
         chatClient.Subscribe(new string[] { chatChannel });
     }
 
-    // Photon.Chat ¼­¹ö¿Í ¿¬°áÀÌ ²÷¾îÁ³À» ¶§ È£ÃâµË´Ï´Ù.
+    // Photon.Chat ì„œë²„ì™€ ì—°ê²°ì´ ëŠì–´ì¡Œì„ ë•Œ í˜¸ì¶œ
     public void OnDisconnected()
     {
         Debug.Log("Photon Disconnected!");
     }
-    // Æ¯Á¤ Ã¤³Î¿¡¼­ ¸Ş½ÃÁö¸¦ ¼ö½ÅÇßÀ» ¶§ È£ÃâµË´Ï´Ù.
-    // channelName : ¸Ş½ÃÁö°¡ ¼ö½ÅµÈ Ã¤³Î ÀÌ¸§ , senders : ¸Ş½ÃÁö¸¦ º¸³½ »ç¿ëÀÚ ÀÌ¸§ ¹è¿­ , messages : ¼ö½ÅµÈ ¸Ş½ÃÁö ¹è¿­
+    // íŠ¹ì • ì±„ë„ì—ì„œ ë©”ì„¸ì§€ë¥¼ ìˆ˜ì‹ í–ˆì„ ë•Œ í˜¸ì¶œëœë‹¤. (ì„œë²„ê°€ ì—¬ëŸ¬ê°œ ì¼ ë•Œ) ì˜ˆ) íŒŒí‹°ì±„ë„, ê¸¸ë“œì±„ë„ ë“±ë“±
+    // channelName : ë©”ì„¸ì§€ê°€ ìˆ˜ì‹ ëœ ì±„ë„ ì´ë¦„ , senders : ë©”ì„¸ì§€ë¥¼ ë³´ë‚¸ ì‚¬ìš©ì ì´ë¦„ ë°°ì—´ , messages : ìˆ˜ì‹ ëœ ë©”ì„¸ì§€ ë°°ì—´
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
         for(int i = 0; i < senders.Length; i++)
@@ -127,23 +131,24 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         }
     }
 
-    // ´Ù¸¥ ÇÃ·¹ÀÌ¾î°¡ º¸³½ °³ÀÎ ¸Ş½ÃÁö¸¦ ¼ö½ÅÇßÀ» ¶§ È£ÃâµË´Ï´Ù.
-    // sender : ¸Ş½ÃÁö¸¦ º¸³½ »ç¿ëÀÚ ÀÌ¸§ , meesage : ¸Ş½ÃÁö ³»¿ë, channelName : ¸Ş½ÃÁö°¡ ¼ÓÇÑ Ã¤³Î ÀÌ¸§
+    // ë‹¤ë¥¸ í”Œë ˆì´ì–´ê°€ ë³´ë‚¸ ê°œì¸ ë©”ì„¸ì§€ë¥¼ ìˆ˜ì‹ í–ˆì„ ë•Œ í˜¸ì¶œ (ê·“ì†ë§ ë“±)
+    // sender : ë©”ì„¸ì§€ë¥¼ ë³´ë‚¸ ì‚¬ìš©ì ì´ë¦„ , meesage : ë©”ì„¸ì§€ ë‚´ìš©, channelName : ë©”ì„¸ì§€ê°€ ì†í•œ ì±„ë„ ì´ë¦„
     public void OnPrivateMessage(string sender, object message, string channelName)
     {
         throw new System.NotImplementedException();
     }
 
-    // Æ¯Á¤ »ç¿ëÀÚÀÇ »óÅÂ°¡ º¯°æµÇ¾úÀ» ¶§ È£ÃâµË´Ï´Ù.
-    // user : »óÅÂ°¡ º¯°æµÈ »ç¿ëÀÚ , status : »õ·Î¿î »óÅÂ ÄÚµå (¿Â¶óÀÎ, ¿ÀÇÁ¶óÀÎ, ÀÚ¸® ºñ¿ò, ¹Ù»İ),
-    // gotMessage : »óÅÂ º¯°æ ½Ã Ãß°¡ ¸Ş½ÃÁö ¿©ºÎ, message : »óÅÂ º¯°æ°ú ÇÔ²² Àü´ŞµÈ ¸Ş½ÃÁö.
+    // íŠ¹ì • ì‚¬ìš©ìì˜ ìƒíƒœê°€ ë³€ê²½ë˜ì—ˆì„ ë•Œ í˜¸ì¶œëœë‹¤.
+    // user : ìƒíƒœê°€ ë³€ê²½ëœ ì‚¬ìš©ì , status : ìƒˆë¡œìš´ ìƒíƒœ ì½”ë“œ (ì˜¨ë¼ì¸, ì˜¤í”„ë¼ì¸, ìë¦¬ë¹„ì›€, ë°”ì¨ ë“±)
+    // gotMessage : ìƒíƒœ ë³€ê²½ ì‹œ ì¶”ê°€ ë©”ì„¸ì§€ ì—¬ë¶€, message : ìƒíƒœ ë³€ê²½ê³¼ í•¨ê»˜ ì „ë‹¬ëœ ë©”ì„¸ì§€.
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message)
     {
         throw new System.NotImplementedException();
     }
 
-    // Ã¤³Î ±¸µ¶ ¿äÃ»ÀÌ ¼º°øÀûÀ¸·Î Ã³¸®µÇ¾úÀ» ¶§ È£ÃâµË´Ï´Ù.
-    // channels:±¸µ¶ÇÑ Ã¤³Î ÀÌ¸§ ¹è¿­, results : °¢ Ã¤³ÎÀÇ ±¸µ¶ ¼º°ø ¿©ºÎ (true, false)
+    // ì±„ë„ êµ¬ë… ìš”ì²­ì´ ì„±ê³µì ìœ¼ë¡œ ì²˜ë¦¬ë˜ì—ˆì„ ë•Œ í˜¸ì¶œ
+    // channels: êµ¬ë…í•œ ì±„ë„ ì´ë¦„ ë°°ì—´, results : ê° ì±„ë„ì˜ êµ¬ë… ì„±ê³µ ì—¬ë¶€ (true, false)
+    // ì˜ˆë¥¼ ë“¤ì–´ ê¸¸ë“œë¥¼ ë“¤ì–´ê°€ë©´ ê¸¸ë“œì±„ë„ì˜ ì±„íŒ…ì„ ì‚¬ìš©í•  ìˆ˜ ìˆê²Œ êµ¬ë… í•˜ëŠ” ë°©ì‹ 
     public void OnSubscribed(string[] channels, bool[] results)
     {
         for(int i = 0; i < channels.Length; i++)
@@ -159,20 +164,22 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         }
     }
 
-    // Ã¤³Î ±¸µ¶ ÇØÁ¦ ¿äÃ»ÀÌ Ã³¸®µÇ¾úÀ» ¶§ È£ÃâµË´Ï´Ù.
-    // channels : ±¸µ¶ ÇØÁ¦µÈ Ã¤³Î ÀÌ¸§ ¹è¿­
+    // ì±„ë„ êµ¬ë… í•´ì œ ìš”ì²­ì´ ì²˜ë¦¬ë˜ì—ˆì„ ë•Œ í˜¸ì¶œëœë‹¤.
+    // channels : êµ¬ë… í•´ì œëœ ì±„ë„ ì´ë¦„ ë°°ì—´
     public void OnUnsubscribed(string[] channels)
     {
         throw new System.NotImplementedException();
     }
-    // Æ¯Á¤ »ç¿ëÀÚ°¡ Ã¤³Î¿¡ ±¸µ¶ÇßÀ» ¶§ È£ÃâµË´Ï´Ù.
-    // channel : »ç¿ëÀÚ°¡ ±¸µ¶ÇÑ Ã¤³Î ÀÌ¸§, user : ±¸µ¶ÇÑ »ç¿ëÀÚ ÀÌ¸§
+    // íŠ¹ì • ì‚¬ìš©ìê°€ ì±„ë„ì— êµ¬ë… í–ˆì„ ë•Œ í˜¸ì¶œ
+    // channel : ì‚¬ìš©ìê°€ êµ¬ë…í•œ ì±„ë„ user : êµ¬ë…í•œ ì‚¬ìš©ì ì´ë¦„
+    // OnSubscribed ë‹¤ë¥¸ ì  : OnSubscribedëŠ” ì±„ë„ê³¼ ì„±ê³µì—¬ë¶€ë§Œ ê°€ì ¸ì˜¤ëŠ”ë° ì´ê±°ëŠ” ì±„ë„ê³¼ ìœ ì € ì´ë¦„ì„ ê°€ì ¸ì˜´
+    // ì˜ˆ) ìœ ì €ê°€ ê¸¸ë“œì— ê°€ì…í–ˆì„ ë•Œ ??ìœ ì €ê°€ ê°€ì…í•˜ì˜€ìŠµë‹ˆë‹¤. ì¶•í•˜í•´ì£¼ì„¸ìš”. ì´ëŸ°ê±°ì— ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤.
     public void OnUserSubscribed(string channel, string user)
     {
         throw new System.NotImplementedException();
     }
-    // Æ¯Á¤ »ç¿ëÀÚ°¡ Ã¤³Î ±¸µ¶À» ÇØÁ¦ÇßÀ» ¶§ È£ÃâµË´Ï´Ù.
-    // channel : »ç¿ëÀÚ°¡ ±¸µ¶ ÇØÁ¦ÇÑ Ã¤³Î ÀÌ¸§, user: ±¸µ¶ ÇØÁ¦ÇÑ »ç¿ëÀÚ ÀÌ¸§
+    // íŠ¹ì • ì‚¬ìš©ìê°€ ì±„ë„ êµ¬ë…ì„ í•´ì œí–ˆì„ ë•Œ í˜¸ì¶œëœë‹¤.
+    // channel : ì‚¬ìš©ìê°€ êµ¬ë… í•´ì œí•œ ì±„ë„ ì´ë¦„, user: êµ¬ë… í•´ì œí•œ ì‚¬ìš©ì ì´ë¦„
     public void OnUserUnsubscribed(string channel, string user)
     {
         throw new System.NotImplementedException();

@@ -21,6 +21,7 @@ public class ChatUIManager : MonoBehaviour
     private List<string> chatMessages = new List<string>();
     private void Update()
     {
+        //현재 이벤트 시스템이 잡고있는 오브젝트가 챗 인풋필드인지를 체크
         if(EventSystem.current.currentSelectedGameObject == chatInputField.gameObject &&
             Input.GetKeyDown(KeyCode.Return)) // KeyCode.Return = Enter
         {
@@ -37,6 +38,7 @@ public class ChatUIManager : MonoBehaviour
 
             chatInputField.text = "";
 
+            //인풋필드가 null이 되어도 다시 포커스가 맞춰진 채로 유지
             chatInputField.ActivateInputField();
         }
     }
@@ -50,7 +52,7 @@ public class ChatUIManager : MonoBehaviour
             chatMessages.RemoveAt(0);
         }
 
-        scrollRect.verticalNormalizedPosition = 0.0f; // ��ũ���� �Ʒ��� ����
+        scrollRect.verticalNormalizedPosition = 0.0f; //채팅이 위로 올라갈때 스크롤을 아래로 고정
         UpdateChatLog();
     }
 

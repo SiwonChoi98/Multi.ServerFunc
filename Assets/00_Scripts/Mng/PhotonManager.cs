@@ -30,7 +30,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log("룸에 접속하였습니다.");
         SpawnPlayer();
         ChatManager.instance.Initalize();
-        BubbleUIManager.instance.InitalzieBubble();
+        //BubbleUIManager.instance.InitalzieBubble();
     }
     
     void SpawnPlayer()
