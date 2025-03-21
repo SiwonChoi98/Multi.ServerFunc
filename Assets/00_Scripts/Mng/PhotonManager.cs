@@ -8,47 +8,47 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public const byte AUCTION_COMPLETE_EVENT = 3;
     private void Start()
     {
-        // Photon ¼­¹ö ¿¬°á
+        // Photon ì„œë²„ ì—°ê²°
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Æ÷Åæ ¸¶½ºÅÍ ¼­¹ö¿¡ ¿¬°áÇÏ¿´½À´Ï´Ù.");
-        // ·£´ı ·ë¿¡ Âü°¡ÇÏ°Å³ª »õ·Î¿î ·ëÀ» »ı¼º
+        Debug.Log("í¬í†¤ ë§ˆìŠ¤í„° ì„œë²„ì— ì—°ê²°í•˜ì˜€ìŠµë‹ˆë‹¤.");
+        // ëœë¤ ë£¸ì— ì°¸ê°€í•˜ê±°ë‚˜ ìƒˆë¡œìš´ ë£¸ì„ ìƒì„±
         PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("¹æ Âü°¡¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù. ¹æÀ» »õ·Î ¸¸µì´Ï´Ù.");
+        Debug.Log("ë°© ì°¸ê°€ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤. ë°©ì„ ìƒˆë¡œ ë§Œë“­ë‹ˆë‹¤.");
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 2 });
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("·ë¿¡ Á¢¼ÓÇÏ¿´½À´Ï´Ù.");
+        Debug.Log("ë£¸ì— ì ‘ì†í•˜ì˜€ìŠµë‹ˆë‹¤.");
         SpawnPlayer();
         ChatManager.instance.Initalize();
         BubbleUIManager.instance.InitalzieBubble();
     }
-    // Instantiate - »ı¼ºÀÚ
-    // Destroy - ÆÄ±«ÀÚ
+    
     void SpawnPlayer()
     {
         Vector3 spawnPosition = new Vector3(Random.Range(-5.0f, 5.0f), 0.0f, Random.Range(-5.0f, 5.0f));
+        //PhotonNetwork.InstantiateëŠ” Resourceë‚´ë¶€ì˜ í”„ë¦¬íŒ¹ ì´ë¦„ì„ ê°€ì ¸ì˜¤ê²Œ ë˜ì–´ìˆìŒ
         GameObject playerObject = PhotonNetwork.Instantiate("PlayerPrefab", spawnPosition, Quaternion.identity);
 
-        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-        playerObject.GetComponent<PlayerController>().Initalize(actorNumber);
-        Camera.main.GetComponent<CameraController>().Initalize(playerObject.transform);
+        //int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        //playerObject.GetComponent<PlayerController>().Initalize(actorNumber);
+        //Camera.main.GetComponent<CameraController>().Initalize(playerObject.transform);
 
         PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
     }
     // RPC -> Remote Procedure call 
     // RaiseEvent
-    // ¼­¹ö -> RPC = Á÷Á¢ ÇØ´ç °´Ã¼ÀÇ PhotonView¸¦ ÅëÇØ È£Ãâ
-    // ¼­¹ö -> RaiseEvent = ÀÌº¥Æ® ±â¹İ ( Photon ¼­¹ö¸¦ °ÅÃÄ Àü´ŞµÊ )
+    // ï¿½ï¿½ï¿½ï¿½ -> RPC = ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ PhotonViewï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ -> RaiseEvent = ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ ( Photon ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Şµï¿½ )
     public static void NotifyAuctionCompleted(string auctionID, string winnberNick)
     {
         object[] content = new object[] { auctionID, winnberNick };
@@ -59,7 +59,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public static void NotifyBidPlaced(string auctionId, string bidderNick, int currentPrice)
     {
         object[] content = new object[] { auctionId, bidderNick, currentPrice };
-        // Photon¿¡¼­´Â RaiseEvent()°¡ object[] Å¸ÀÔÀÇ µ¥ÀÌÅÍ¸¦ Àü´ŞÇÒ ¼ö ÀÖÀ½.
+        // Photonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ RaiseEvent()ï¿½ï¿½ object[] Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
         RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(BID_EVENT, content, options, SendOptions.SendReliable);
     }
@@ -92,13 +92,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private void RemoveAuctionFromUI(string auctionID)
     {
         ToastPopUPManager.instance.Initalize(
-            string.Format("'{0}'¾ÆÀÌÅÛÀÌ ÆÇ¸ÅµÇ¾ú½À´Ï´Ù.", auctionID));
+            string.Format("'{0}'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ÅµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", auctionID));
     }
 
     private void UpdateAuctionUI(string auctionID, string bidderNick, string currentPrice)
     {
         ToastPopUPManager.instance.Initalize(
-            string.Format("'{1}'´ÔÀÌ ¹°°ÇÀ» ÀÔÂû ÇÏ¿´½À´Ï´Ù. ÀÔÂû°¡:{2}",
+            string.Format("'{1}'ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:{2}",
             auctionID, bidderNick, currentPrice));
     }
 }
