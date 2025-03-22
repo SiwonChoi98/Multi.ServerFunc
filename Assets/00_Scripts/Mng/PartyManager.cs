@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// 파티는 DB를 함께 이용해야 좋지만 RPC로도 보완만 하면 가능하긴 하다.
+/// </summary>
 public class PartyManager : MonoBehaviourPunCallbacks
 {
     private Dictionary<int, Party> activeParties = new Dictionary<int, Party>();
@@ -92,7 +95,7 @@ public class PartyManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_NotifyPartyMemberLeft(Player player)
     {
-        string temp = string.Format("{0}�Բ��� ��Ƽ�� Ż���Ͽ����ϴ�.", player.NickName);
+        string temp = string.Format("{0}님께서 파티를 탈퇴하였습니다.", player.NickName);
         ToastPopUPManager.instance.Initalize(temp);
     }
 
@@ -101,6 +104,7 @@ public class PartyManager : MonoBehaviourPunCallbacks
         photonView.RPC("RPC_LeaveParty", RpcTarget.AllBuffered, player);
     }
 
+    //플레이어가 떠났을 때 호출
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         if(HasParty(otherPlayer))

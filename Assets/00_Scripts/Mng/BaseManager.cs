@@ -44,7 +44,7 @@ public class BaseManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SendNotification()
     {
-        string message = "ÆíÁö°¡ µµÂøÇÏ¿´½À´Ï´Ù.";
+        string message = "íŽ¸ì§€ê°€ ë„ì°©í•˜ì˜€ìŠµë‹ˆë‹¤.";
         ToastPopUPManager.instance.Initalize(message);
         Firebase.LoadInBox(() => PostUI.instance.CheckPost());
     }

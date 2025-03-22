@@ -32,9 +32,11 @@ public class ActionHolder : MonoBehaviourPunCallbacks
         Actions[Action_State.InviteGuild] = InviteGuild;
     }
     #region Party
+    
+    //RPCì˜ RPCTarget.OthersëŠ” ìê¸°ìì‹ ì„ ì œì™¸í•œ ëª¨ë“  í”Œë ˆì´ì–´
     public static void InviteParty()
     {
-        string Toast = string.Format("<color=#FFFF00>{0}</color>´Ô¿¡°Ô ÆÄÆ¼¸¦ ÃÊ´ëÇÏ¿´½À´Ï´Ù.",
+        string Toast = string.Format("<color=#FFFF00>{0}</color>ï¿½Ô¿ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
          PhotonHelper.GetPlayerNickName(TargetPlayerIndex));
 
         ToastPopUPManager.instance.Initalize(Toast);
@@ -47,7 +49,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void ReceivePartyInvite(int inviterID, int targetPlayerID)
     {
         string temp = string.Format(
-            "<color=#FFFF00>{0}</color>´Ô²²¼­ ÆÄÆ¼¸¦ ÃÊ´ëÇÏ¿´½À´Ï´Ù.\n¼ö¶ôÇÏ½Ã°Ú½À´Ï±î?", 
+            "<color=#FFFF00>{0}</color>ë‹˜ê»˜ì„œ íŒŒí‹°ë¥¼ ì´ˆëŒ€í•˜ì˜€ìŠµë‹ˆë‹¤.\nìˆ˜ë½í•˜ì‹œê² ìŠµë‹ˆê¹Œ?", 
             PhotonHelper.GetPlayerNickName(inviterID));
 
         Action YES = () =>
@@ -67,7 +69,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
 
         Action NO = () =>
         {
-            ToastPopUPManager.instance.Initalize("ÆÄÆ¼ ÃÊ´ë¸¦ °ÅÀıÇÏ¿´½À´Ï´Ù.");
+            ToastPopUPManager.instance.Initalize("íŒŒí‹° ì´ˆëŒ€ë¥¼ ê±°ì ˆí•˜ì˜€ìŠµë‹ˆë‹¤.");
             photonView.RPC("IgnorePartyInvite", PhotonHelper.GetPlayer(inviterID), targetPlayerID);
         };
 
@@ -78,7 +80,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void IgnorePartyInvite(int targetPlayerID)
     {
         string temp = string.Format(
-            "<color=#FFFF00>{0}</color>´Ô²²¼­ ÆÄÆ¼ ÃÊ´ë¸¦ °ÅÀıÇÏ¿´½À´Ï´Ù.",
+            "<color=#FFFF00>{0}</colorë‹˜ê»˜ì„œ íŒŒí‹° ì´ˆëŒ€ë¥¼ ê±°ì ˆí•˜ì˜€ìŠµë‹ˆë‹¤.",
             PhotonHelper.GetPlayerNickName(targetPlayerID));
 
 
@@ -88,7 +90,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     #region Trade
     public static void Trade()
     {
-        string Toast = string.Format("<color=#FFFF00>{0}</color>´Ô¿¡°Ô °Å·¡¸¦ ¿äÃ»ÇÏ¿´½À´Ï´Ù.",
+        string Toast = string.Format("<color=#FFFF00>{0}</color>ï¿½Ô¿ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
         PhotonHelper.GetPlayerNickName(TargetPlayerIndex));
 
         ToastPopUPManager.instance.Initalize(Toast);
@@ -101,7 +103,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void ReceiveTradeInvite(int inviterID, int targetPlayerID)
     {
         string temp = string.Format(
-           "<color=#FFFF00>{0}</color>´Ô²²¼­ °Å·¡¸¦ ¿äÃ»ÇÏ¿´½À´Ï´Ù.\n¼ö¶ôÇÏ½Ã°Ú½À´Ï±î?",
+           "<color=#FFFF00>{0}</color>ï¿½Ô²ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\nï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ã°Ú½ï¿½ï¿½Ï±ï¿½?",
            PhotonHelper.GetPlayerNickName(inviterID));
 
         BaseManager.Trade.StartTrade(PhotonHelper.GetPlayer(inviterID));
@@ -116,7 +118,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
 
         Action NO = () =>
         {
-            ToastPopUPManager.instance.Initalize("ÆÄÆ¼ ÃÊ´ë¸¦ °ÅÀıÇÏ¿´½À´Ï´Ù.");
+            ToastPopUPManager.instance.Initalize("ï¿½ï¿½Æ¼ ï¿½Ê´ë¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             photonView.RPC("IgnoreTradeInvite", PhotonHelper.GetPlayer(inviterID), targetPlayerID);
         };
 
@@ -127,7 +129,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void IgnoreTradeInvite(int targetPlayerID)
     {
         string temp = string.Format(
-            "<color=#FFFF00>{0}</color>´Ô²²¼­ °Å·¡ ¿äÃ»À» °ÅÀıÇÏ¿´½À´Ï´Ù.",
+            "<color=#FFFF00>{0}</color>ï¿½Ô²ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
             PhotonHelper.GetPlayerNickName(targetPlayerID));
         ToastPopUPManager.instance.Initalize(temp);
     }
@@ -135,7 +137,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     #region Guild
     public static async void InviteGuild()
     {
-        string Toast = string.Format("<color=#FFFF00>{0}</color>´Ô¿¡°Ô ±æµå °¡ÀÔÀ» ¿äÃ»ÇÏ¿´½À´Ï´Ù.",
+        string Toast = string.Format("<color=#FFFF00>{0}</color>ï¿½Ô¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
        PhotonHelper.GetPlayerNickName(TargetPlayerIndex));
 
         ToastPopUPManager.instance.Initalize(Toast);
@@ -148,7 +150,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void ReceiveGuildInvite(int inviterID, int targetPlayerID, string guildID)
     {
         string temp = string.Format(
-           "<color=#FFFF00>{0}</color>´Ô²²¼­ ±æµå °¡ÀÔÀ» ¿äÃ»ÇÏ¿´½À´Ï´Ù.\n¼ö¶ôÇÏ½Ã°Ú½À´Ï±î?",
+           "<color=#FFFF00>{0}</color>ï¿½Ô²ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\nï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ã°Ú½ï¿½ï¿½Ï±ï¿½?",
            PhotonHelper.GetPlayerNickName(inviterID));
 
         Action YES = () =>
@@ -161,7 +163,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
 
         Action NO = () =>
         {
-            ToastPopUPManager.instance.Initalize("±æµå °¡ÀÔ ¿äÃ»À» °ÅÀıÇÏ¿´½À´Ï´Ù.");
+            ToastPopUPManager.instance.Initalize("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             photonView.RPC("IgnoreGuildInvite", PhotonHelper.GetPlayer(inviterID), targetPlayerID);
         };
 
@@ -172,7 +174,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void IgnoreGuildInvite(int targetPlayerID)
     {
         string temp = string.Format(
-            "<color=#FFFF00>{0}</color>´Ô²²¼­ °Å·¡ ¿äÃ»À» °ÅÀıÇÏ¿´½À´Ï´Ù.",
+            "<color=#FFFF00>{0}</color>ï¿½Ô²ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
             PhotonHelper.GetPlayerNickName(targetPlayerID));
         ToastPopUPManager.instance.Initalize(temp);
     }
