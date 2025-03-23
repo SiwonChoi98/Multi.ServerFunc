@@ -29,10 +29,10 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
             {
                 AppOptions appOptions = new AppOptions
                 {
-                    ApiKey = "AIzaSyAU2nM3zu5pk0YWRabUlyN8KjDZNA7-oEY",
-                    AppId = "1:175517815824:web:f15ea7f4211143b801a695",
-                    ProjectId = "inprun-photon",
-                    DatabaseUrl = new System.Uri("https://inprun-photon-default-rtdb.firebaseio.com/"),
+                    ApiKey = "AIzaSyDti4aZhQeVNWEd6JR-UsSZsf7aLe6j7VM",
+                    AppId = "1:1068883920654:web:e272823298c4c12e12f95f",
+                    ProjectId = "unitymultifunc",
+                    DatabaseUrl = new System.Uri("https://unitymultifunc-default-rtdb.firebaseio.com/"),
                 };
 
                 FirebaseApp APP = FirebaseApp.Create(appOptions);

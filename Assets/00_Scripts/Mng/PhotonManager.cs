@@ -41,7 +41,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
         playerObject.GetComponent<PlayerController>().Initalize(actorNumber);
-        //Camera.main.GetComponent<CameraController>().Initalize(playerObject.transform);
+        Camera.main.GetComponent<CameraController>().Initalize(playerObject.transform);
 
         PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
     }

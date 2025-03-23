@@ -1457,6 +1457,7 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1600,6 +1601,23 @@ MonoBehaviour:
     m_Bits: 8
   graphicRaycaster: {fileID: 177008314}
   eventSystem: {fileID: 1757850731}
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bec1ef91c11b19a40a0bde171d6b1cc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraPositions:
+  - 0
+  - 15
+  - -10
+  Speed: 5
 --- !u!1 &359274972
 GameObject:
   m_ObjectHideFlags: 0
@@ -3427,7 +3445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -369, y: -193.41553}
+  m_AnchoredPosition: {x: -369, y: -193.4164}
   m_SizeDelta: {x: 738, y: 386.83}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &1052363389
@@ -4771,8 +4789,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 313793979}
   m_HandleRect: {fileID: 313793978}
   m_Direction: 2
-  m_Value: 0.9722222
-  m_Size: 0.99999714
+  m_Value: 1.75
+  m_Size: 0.98749024
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

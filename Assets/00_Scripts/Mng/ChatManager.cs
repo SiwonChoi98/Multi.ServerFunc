@@ -21,7 +21,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     {
         if(string.IsNullOrEmpty(PhotonNetwork.NickName))
         {
-            PhotonNetwork.NickName = $"Player_{PhotonNetwork.LocalPlayer.ActorNumber}"; //BaseManager.Firebase.NickName;
+            PhotonNetwork.NickName = BaseManager.Firebase.NickName; 
         }
 
         chatClient = new ChatClient(this);

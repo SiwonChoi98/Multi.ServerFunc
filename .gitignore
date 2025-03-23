@@ -73,10 +73,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Firebase 패키지 제외
-Packages/com.google.firebase/
 
-# 패키지 목록 유지 (자동 설치를 위해 필요)
-!Packages/manifest.json
-!Packages/packages-lock.json
 
