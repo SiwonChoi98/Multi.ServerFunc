@@ -14,7 +14,7 @@ public class PostUI : BasePopUP
         base.Awake();
     }
 
-    [SerializeField] private InputField RecipientField;
+    [SerializeField] private InputField RecipientField; //받는 이
     [SerializeField] private InputField MessageField;
 
     [SerializeField] private GameObject Box;
@@ -104,7 +104,7 @@ public class PostUI : BasePopUP
     public void SendMessage()
     {
         BaseManager.Firebase.m_SendMessage(
-            RecipientField.text.Trim(), 
+            RecipientField.text.Trim(),  //Trim은 인풋필드에 앞뒤 공백을 제거하는 메서드
             MessageField.text.Trim(), 
             BaseManager.Firebase.NickName);
         RecipientField.text = "";

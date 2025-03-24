@@ -41,8 +41,13 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
                 };
 
                 FirebaseApp APP = FirebaseApp.Create(appOptions);
+                
+                
                 db = FirebaseFirestore.DefaultInstance;
+                //FireStore는 로컬 캐시를 사용함 //그래서 같은 기기에서 두개의 빌드를 하면 같은 캐시를 공유하려고 하고 한쪽 빌드에 접근을 이미해서 점유를 하면 다른쪽은 크래시가 난다.
+                //2개의 빌드가 로컬 캐시를 점유하지 않고 네트워크에서 데이터를 가져오는 형태가 된다.
                 FirebaseFirestore.DefaultInstance.Settings.PersistenceEnabled = false;
+                
                 auth = FirebaseAuth.DefaultInstance;
                 GuestLogin();
                 Debug.Log("Firebase 연결에 성공하였습니다.");
@@ -221,7 +226,7 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
 
                         db.Collection("USERS").Document(recipientID)
                         .Collection("MESSAGES")
-                        .AddAsync(messageData)
+                        .AddAsync(messageData) //축적되면서 저장됨 (기존거 삭제하는 방식이 아님)
                         .ContinueWithOnMainThread(sendTask =>
                         {
                             if (sendTask.IsCompleted)
@@ -251,7 +256,7 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
     {
         db.Collection("USERS").Document(UserID)
             .Collection("MESSAGES")
-            .OrderByDescending("timestamp")
+            .OrderByDescending("timestamp")//최신 데이터를 위로 올릴려고 order 사용
             .GetSnapshotAsync()
             .ContinueWithOnMainThread(task =>
             {
