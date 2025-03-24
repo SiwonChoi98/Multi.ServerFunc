@@ -21,6 +21,11 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
 
     public string NickName;
     public string UserID;
+    
+    //실시간 데이터가 필요한가? -> RealTime Database
+    //저장, 조회, 검색이 많은가? -> FireStore
+    //대규모 게임 서비스인가? -> FireStore
+    //빠른 업데이트와 통기화가 중요한가? -> RealTime Database
     private void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
@@ -81,6 +86,7 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
 
     public void CheckOrCreateUser(string userID)
     {
+        //Users 컬렉션에 userId를 검사 //기존 realtime은 json으로 모든걸 검사함
         DocumentReference userRef = db.Collection("USERS").Document(userID);
 
         userRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
@@ -137,7 +143,7 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
     // FireStore에서 닉네임 중복 확인
     private void CheckNicknameExists(string nickName, System.Action<bool> callback)
     {
-        db.Collection("USERS") // Firestore에서 "USERS"컬렉션을 참조합니다.
+        db.Collection("USERS") // Firestore에서 "USERS"컬렉션을 참조
             .WhereEqualTo("NICKNAME", nickName) // "NICKNAME"필드의 값이 nickName과 완전히 일치하는 문서만 검색 WHERE NICKNAME = "Alice"
             .Limit(1) // 검색 결과에서 최대 1개의 문서만 가져옴
             .GetSnapshotAsync() // 비동기적으로 결과를 가져온다.
@@ -160,6 +166,7 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
         Dictionary<string, object> userData = new Dictionary<string, object>
         {
             { "NICKNAME", nickName },
+            //닉네임이 언제 들어갔는지 시간 값
             { "CREATED_AT", FieldValue.ServerTimestamp },
             { "GUILDID", "" }
         };
