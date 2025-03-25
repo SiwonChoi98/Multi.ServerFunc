@@ -7,7 +7,7 @@ public class RayManager : MonoBehaviour
 {
     [SerializeField] private InteractionUI interactionUI;
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private GraphicRaycaster graphicRaycaster; // Canvas�� �߰��� GraphicRaycaster
+    [SerializeField] private GraphicRaycaster graphicRaycaster; // Canvas에 추가된 GraphicRaycaster
     [SerializeField] private EventSystem eventSystem;
     private void Update()
     {
@@ -40,7 +40,7 @@ public class RayManager : MonoBehaviour
         if(Physics.Raycast(ray, out hit, Mathf.Infinity, playerLayer))
         {
             PlayerController player = hit.collider.GetComponent<PlayerController>();
-            //if (player.isMinePhoton()) return;
+            if (player.isMinePhoton()) return;
 
             if (player != null)
             {

@@ -36,7 +36,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     //RPC의 RPCTarget.Others는 자기자신을 제외한 모든 플레이어
     public static void InviteParty()
     {
-        string Toast = string.Format("<color=#FFFF00>{0}</color>�Կ��� ��Ƽ�� �ʴ��Ͽ����ϴ�.",
+        string Toast = string.Format("<color=#FFFF00>{0}</color>님에게 파티를 초대하였습니다.",
          PhotonHelper.GetPlayerNickName(TargetPlayerIndex));
 
         ToastPopUPManager.instance.Initalize(Toast);
@@ -80,7 +80,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void IgnorePartyInvite(int targetPlayerID)
     {
         string temp = string.Format(
-            "<color=#FFFF00>{0}</color님께서 파티 초대를 거절하였습니다.",
+            "<color=#FFFF00>{0}</color>님께서 파티 초대를 거절하였습니다.",
             PhotonHelper.GetPlayerNickName(targetPlayerID));
 
 
@@ -90,7 +90,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     #region Trade
     public static void Trade()
     {
-        string Toast = string.Format("<color=#FFFF00>{0}</color>�Կ��� �ŷ��� ��û�Ͽ����ϴ�.",
+        string Toast = string.Format("<color=#FFFF00>{0}</color>님에게 거래를 요청하였습니다.",
         PhotonHelper.GetPlayerNickName(TargetPlayerIndex));
 
         ToastPopUPManager.instance.Initalize(Toast);
@@ -103,7 +103,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void ReceiveTradeInvite(int inviterID, int targetPlayerID)
     {
         string temp = string.Format(
-           "<color=#FFFF00>{0}</color>�Բ��� �ŷ��� ��û�Ͽ����ϴ�.\n�����Ͻðڽ��ϱ�?",
+           "<color=#FFFF00>{0}</color>님께서 거래를 요청하였습니다.\n 수락하시겠습니까?",
            PhotonHelper.GetPlayerNickName(inviterID));
 
         BaseManager.Trade.StartTrade(PhotonHelper.GetPlayer(inviterID));
@@ -118,7 +118,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
 
         Action NO = () =>
         {
-            ToastPopUPManager.instance.Initalize("��Ƽ �ʴ븦 �����Ͽ����ϴ�.");
+            ToastPopUPManager.instance.Initalize("거래를 거절하였습니다.");
             photonView.RPC("IgnoreTradeInvite", PhotonHelper.GetPlayer(inviterID), targetPlayerID);
         };
 
@@ -129,7 +129,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void IgnoreTradeInvite(int targetPlayerID)
     {
         string temp = string.Format(
-            "<color=#FFFF00>{0}</color>�Բ��� �ŷ� ��û�� �����Ͽ����ϴ�.",
+            "<color=#FFFF00>{0}</color>님께서 거래 요청을 거절하였습니다.",
             PhotonHelper.GetPlayerNickName(targetPlayerID));
         ToastPopUPManager.instance.Initalize(temp);
     }

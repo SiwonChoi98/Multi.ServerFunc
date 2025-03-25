@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class TradeManager : MonoBehaviourPunCallbacks
 {
-    public Dictionary<string, int> playerItems = new Dictionary<string, int>(); // ³» °Å·¡ ¾ÆÀÌÅÛ
-    public Dictionary<string, int> otherPlayerItems = new Dictionary<string, int>(); // »ó´ë¹æÀÇ °Å·¡ ¾ÆÀÌÅÛ
+    public Dictionary<string, int> playerItems = new Dictionary<string, int>(); // ë‚´ ê±°ë˜ ì•„ì´í…œ
+    public Dictionary<string, int> otherPlayerItems = new Dictionary<string, int>(); // ìƒëŒ€ë°©ì˜ ê±°ë˜ ì•„ì´í…œ
 
     private bool isComfirmed = false;
     private bool otherConfirmed = false;
@@ -20,6 +20,8 @@ public class TradeManager : MonoBehaviourPunCallbacks
 
         photonView.RPC("RPC_ReceivePlayerRequest", targetPlayer, PhotonNetwork.LocalPlayer);
     }
+    
+    //ìƒëŒ€ë°©ì—ê²Œ ìê¸°ìì‹ ì„ ìƒëŒ€ë°© í”Œë ˆì´ì–´ë¼ê³  ì§€ì •
     [PunRPC]
     public void RPC_ReceivePlayerRequest(Player requester)
     {
@@ -42,7 +44,7 @@ public class TradeManager : MonoBehaviourPunCallbacks
     {
         if (!BaseManager.Inventory.inventory.ContainsKey(itemName))
         {
-            Debug.Log("º¸À¯ÇÏ°íÀÖÁö ¾ÊÀº ¾ÆÀÌÅÛÀÔ´Ï´Ù.");
+            Debug.Log("ë³´ìœ í•˜ê³  ìˆì§€ ì•Šì€ ì•„ì´í…œì…ë‹ˆë‹¤.");
         }
 
         if(!playerItems.ContainsKey(itemName))
@@ -81,7 +83,7 @@ public class TradeManager : MonoBehaviourPunCallbacks
 
         if (isComfirmed && otherConfirmed)
         {
-            Debug.Log("°Å·¡ ¿Ï·á!");
+            Debug.Log("êµí™˜ ì™„ë£Œ!");
 
             ExchangeItems();
 
@@ -101,7 +103,7 @@ public class TradeManager : MonoBehaviourPunCallbacks
             BaseManager.Inventory.AddItem(item.Key, item.Value);
         }
 
-        ToastPopUPManager.instance.Initalize("°Å·¡¸¦ ¼º°øÀûÀ¸·Î ¿Ï·áÇÏ¿´½À´Ï´Ù!");
+        ToastPopUPManager.instance.Initalize("ê±°ë˜ë¥¼ ì„±ê³µì ìœ¼ë¡œ ì™„ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤!");
     }
 
     [PunRPC]
@@ -109,20 +111,20 @@ public class TradeManager : MonoBehaviourPunCallbacks
     {
         otherPlayerItems = updatedItems;
         TradeUI.instance.SetHolderData();
-        Debug.Log("»ó´ë¹æÀÇ °Å·¡ ¾ÆÀÌÅÛÀÌ ¾÷µ¥ÀÌÆ®µÇ¾ú½À´Ï´Ù.");
+        Debug.Log("ìƒëŒ€ë°©ì˜ ê±°ë˜ ì•„ì´í…œì´ ì—…ë°ì´íŠ¸ ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     public void CancelTrade()
     {
         ResetTrade();
         photonView.RPC("RPC_CancelTrade", otherPlayer);
-        ToastPopUPManager.instance.Initalize("°Å·¡°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
+        ToastPopUPManager.instance.Initalize("ê±°ë˜ê°€ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     [PunRPC]
     public void RPC_CancelTrade()
     {
-        ToastPopUPManager.instance.Initalize("°Å·¡°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
+        ToastPopUPManager.instance.Initalize("ê±°ë˜ê°€ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
         ResetTrade();
     }
 
@@ -133,6 +135,6 @@ public class TradeManager : MonoBehaviourPunCallbacks
         isComfirmed = false;
         otherConfirmed = false;
         TradeUI.instance.GetComponent<Animator>().SetTrigger("Hide");
-        Debug.Log("°Å·¡ ÃÊ±âÈ­ ¿Ï·á!");
+        Debug.Log("ê±°ë˜ ì´ˆê¸°í™” ì™„ë£Œ!");
     }
 }
