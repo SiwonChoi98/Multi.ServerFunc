@@ -44,10 +44,10 @@ public class InventoryManager : MonoBehaviour
              {"count", inventory[itemName].count },
              {"acquiredAt", FieldValue.ServerTimestamp}
          };
-        // MergeAll - ±âÁ¸ µ¥ÀÌÅÍ´Â À¯ÁöÇÏ°í, »õ·Î¿î ÇÊµå¸¸ ¾÷µ¥ÀÌÆ®
-        // MergeFields - (string) <- ¸Å°³º¯¼ö¿¡ ´ëÇÑ °ª¸¸ º¯°æ
+        // MergeAll - ê¸°ì¡´ ë°ì´í„°ëŠ” ìœ ì§€í•˜ê³ , ìƒˆë¡œìš´ í•„ë“œë§Œ ì—…ë°ì´íŠ¸
+        // MergeFields - (string) <- ë§¤ê°œë³€ìˆ˜ì— ëŒ€í•œ ê°’ë§Œ ë³€ê²½
         await itemRef.SetAsync(itemData, SetOptions.MergeAll);
-        Debug.Log($"¾ÆÀÌÅÛ {itemName} ({amount}°³) Firestore¿¡ ÀúÀåµÊ!");
+        Debug.Log($"ì•„ì´í…œ {itemName} ({amount}ê°œ) Firestoreì— ì €ì¥ë¨!");
     }
 
     public async void RemoveItem(string itemName, int amount)
@@ -61,7 +61,7 @@ public class InventoryManager : MonoBehaviour
 
                 await BaseManager.Firebase.db.Collection("USERS").Document(BaseManager.Firebase.UserID)
                     .Collection("INVENTORY").Document(itemName).DeleteAsync();
-                Debug.Log($"¾ÆÀÌÅÛ {itemName} Firestore¿¡¼­ »èÁ¦µÊ!");
+                Debug.Log($"ì•„ì´í…œ {itemName} Firestoreì—ì„œ ì‚­ì œë¨!");
             }
             else
             {
@@ -69,7 +69,7 @@ public class InventoryManager : MonoBehaviour
                     .Collection("INVENTORY").Document(itemName);
 
                 await itemRef.UpdateAsync("count", inventory[itemName].count);
-                Debug.Log($"¾ÆÀÌÅÛ {itemName} Firestore¿¡¼­ ¾÷µ¥ÀÌÆ®µÊ! ÇöÀç °³¼ö {inventory[itemName].count}");
+                Debug.Log($"ì•„ì´í…œ {itemName} Firestoreì—ì„œ ì—…ë°ì´íŠ¸ë¨! í˜„ì¬ ê°œìˆ˜ : {inventory[itemName].count}");
             }
         }
     }
@@ -92,6 +92,6 @@ public class InventoryManager : MonoBehaviour
         if(action != null)
             action?.Invoke();
 
-        Debug.Log("FireStore¿¡¼­ ÀÎº¥Åä¸® ·Îµå ¿Ï·á!");
+        Debug.Log("FireStoreì—ì„œ ì¸ë²¤í† ë¦¬ ë¡œë“œ ì™„ë£Œ!");
     }
 }
