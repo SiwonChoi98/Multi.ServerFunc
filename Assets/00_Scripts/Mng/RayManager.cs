@@ -7,7 +7,7 @@ public class RayManager : MonoBehaviour
 {
     [SerializeField] private InteractionUI interactionUI;
     [SerializeField] private LayerMask playerLayer;
-    [SerializeField] private GraphicRaycaster graphicRaycaster; // Canvas¿¡ Ãß°¡µÈ GraphicRaycaster
+    [SerializeField] private GraphicRaycaster graphicRaycaster; // Canvasï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ GraphicRaycaster
     [SerializeField] private EventSystem eventSystem;
     private void Update()
     {
@@ -40,13 +40,14 @@ public class RayManager : MonoBehaviour
         if(Physics.Raycast(ray, out hit, Mathf.Infinity, playerLayer))
         {
             PlayerController player = hit.collider.GetComponent<PlayerController>();
-            if (player.isMinePhoton()) return;
+            //if (player.isMinePhoton()) return;
 
             if (player != null)
             {
                 ActionHolder.TargetPlayerIndex = player.OwnerActorNumber;
                 interactionUI.gameObject.SetActive(true);
                 interactionUI.Initalize(player, Interaction_State.Player);
+                Debug.Log(player);
             }
             else
             {
