@@ -14,17 +14,17 @@ public class GuildManager : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(guildName))
         {
-            Debug.LogError("±æµå¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä!");
+            Debug.LogError("ê¸¸ë“œëª…ì„ ì…ë ¥í•˜ì„¸ìš”!");
             return;
         }
         if (guildName.Length < 3 || guildName.Length > 10)
         {
-            Debug.LogError("±æµå¸íÀº 3ÀÚ ÀÌ»ó 10ÀÚ ÀÌÇÏ¿©¾ß ÇÕ´Ï´Ù!");
+            Debug.LogError("ê¸¸ë“œëª…ì€ 3ì ì´ìƒ 10ì ì´í•˜ì—¬ì•¼ í•©ë‹ˆë‹¤!");
             return;
         }
-        if (!System.Text.RegularExpressions.Regex.IsMatch(guildName, "^[a-zA-Z0-9°¡-ÆR]+$"))
+        if (!System.Text.RegularExpressions.Regex.IsMatch(guildName, "^[a-zA-Z0-9ê°€-í£]+$"))
         {
-            Debug.LogError("±æµå¸í¿¡ Æ¯¼ö ¹®ÀÚ´Â »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù!");
+            Debug.LogError("ê¸¸ë“œëª…ì— íŠ¹ìˆ˜ ë¬¸ìëŠ” ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!");
             return;
         }
 
@@ -32,7 +32,7 @@ public class GuildManager : MonoBehaviour
         {
             if (exists)
             {
-                Debug.LogError("ÀÌ¹Ì Á¸ÀçÇÏ´Â ´Ğ³×ÀÓÀÔ´Ï´Ù.");
+                Debug.LogError("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ë‹‰ë„¤ì„ì…ë‹ˆë‹¤.");
             }
             else
             {
@@ -48,7 +48,7 @@ public class GuildManager : MonoBehaviour
         DocumentSnapshot guildSnapshot = await guildRef.GetSnapshotAsync();
         if(!guildSnapshot.Exists)
         {
-            Debug.LogError("±æµå Á¶È¸¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+            Debug.LogError("ê¸¸ë“œ ì¡°íšŒì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -64,7 +64,7 @@ public class GuildManager : MonoBehaviour
 
             UpdateGuildID(guildID);
         };
-        ToastPopUPManager.instance.Initalize("±æµå¿¡ °¡ÀÔÇÏ¿´½À´Ï´Ù.");
+        ToastPopUPManager.instance.Initalize("ê¸¸ë“œì— ê°€ì…í•˜ì˜€ìŠµë‹ˆë‹¤.");
     }
 
     public async Task<bool> KickMemberFromGuild(string targetMemberNickName)
@@ -77,14 +77,14 @@ public class GuildManager : MonoBehaviour
         string guildMaster = guildSnapshot.GetValue<string>("guildMaster");
         if(guildMaster != BaseManager.Firebase.NickName)
         {
-            ToastPopUPManager.instance.Initalize("±æµå ¸¶½ºÅÍ¸¸ ÇØ´ç ±â´ÉÀ» ÀÌ¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+            ToastPopUPManager.instance.Initalize("ê¸¸ë“œ ë§ˆìŠ¤í„°ë§Œ í•´ë‹¹ ê¸°ëŠ¥ì„ ì´ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
             return false;
         }
         List<string> members = guildSnapshot.GetValue<List<string>>("members");
 
         if (!members.Contains(targetMemberNickName))
         {
-            Debug.Log("ÇØ´ç À¯Àú´Â ±æµå¿¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.Log("í•´ë‹¹ ìœ ì €ëŠ” ê¸¸ë“œì— ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return false;
         }
 
@@ -96,7 +96,7 @@ public class GuildManager : MonoBehaviour
 
         UpdateGuildIDByNickName(targetMemberNickName, "");
         return true;
-        Debug.Log($"À¯Àú {targetMemberNickName}°¡ ±æµå¿¡¼­ Ãß¹æµÇ¾ú½À´Ï´Ù.");
+        Debug.Log($"ìœ ì € {targetMemberNickName}ê°€ ê¸¸ë“œì—ì„œ ì¶”ë°©ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     public async void SaveGuildNameToFirestore(string guildName, string playerId)
@@ -113,7 +113,7 @@ public class GuildManager : MonoBehaviour
 
         await guildRef.SetAsync(guildData);
         
-        ToastPopUPManager.instance.Initalize("±æµå¸¦ ¼º°øÀûÀ¸·Î »ı¼ºÇÏ¿´½À´Ï´Ù.");
+        ToastPopUPManager.instance.Initalize("ê¸¸ë“œë¥¼ ì„±ê³µì ìœ¼ë¡œ ìƒì„±í•˜ì˜€ìŠµë‹ˆë‹¤.");
         UpdateGuildID(guildRef.Id);
         GuildUI.instance.ResetGuildUI();
     }
@@ -142,18 +142,18 @@ public class GuildManager : MonoBehaviour
                 {"GUILDID", newGuildID }
             });
 
-            Debug.Log($"À¯Àú '{userNickName}'ÀÇ ±æµå ID°¡ '{newGuildID}'·Î ¾÷µ¥ÀÌÆ®µÇ¾ú½À´Ï´Ù.");
+            Debug.Log($"ìœ ì € '{userNickName}'ì˜ ê¸¸ë“œ IDê°€ '{newGuildID}'ë¡œ ì—…ë°ì´íŠ¸ë˜ì—ˆìŠµë‹ˆë‹¤.");
         }
 
     }
 
     private void CheckGuildNameExists(string guildName, System.Action<bool> callback)
     {
-        BaseManager.Firebase.db.Collection("GUILDS") // Firestore¿¡¼­ "USERS"ÄÃ·º¼ÇÀ» ÂüÁ¶ÇÕ´Ï´Ù.
-            .WhereEqualTo("guildName", guildName) // "NICKNAME"ÇÊµåÀÇ °ªÀÌ nickName°ú ¿ÏÀüÈ÷ ÀÏÄ¡ÇÏ´Â ¹®¼­¸¸ °Ë»ö WHERE NICKNAME = "Alice"
-            .Limit(1) // °Ë»ö °á°ú¿¡¼­ ÃÖ´ë 1°³ÀÇ ¹®¼­¸¸ °¡Á®¿È
-            .GetSnapshotAsync() // ºñµ¿±âÀûÀ¸·Î °á°ú¸¦ °¡Á®¿Â´Ù.
-            .ContinueWithOnMainThread(task => // ¸ŞÀÎ ½º·¹µå¿¡¼­ ÈÄ¼Ó ÀÛ¾÷À» ½ÇÇàÇÑ´Ù.
+        BaseManager.Firebase.db.Collection("GUILDS") // Firestoreì—ì„œ "GUILDS"ì»¬ë ‰ì…˜ì„ ì°¸ì¡°í•©ë‹ˆë‹¤.
+            .WhereEqualTo("guildName", guildName) // "guildName"í•„ë“œì˜ ê°’ì´ guildNameê³¼ ì™„ì „íˆ ì¼ì¹˜í•˜ëŠ” ë¬¸ì„œë§Œ ê²€ìƒ‰ WHERE NICKNAME = "Alice"
+            .Limit(1) // ê²€ìƒ‰ ê²°ê³¼ì—ì„œ ìµœëŒ€ 1ê°œì˜ ë¬¸ì„œë§Œ ê°€ì ¸ì˜´
+            .GetSnapshotAsync() // ë¹„ë™ê¸°ì ìœ¼ë¡œ ê²°ê³¼ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
+            .ContinueWithOnMainThread(task => // ë©”ì¸ ìŠ¤ë ˆë“œì—ì„œ í›„ì† ì‘ì—…ì„ ì‹¤í–‰í•œë‹¤.
             {
                 if (task.IsCompleted && task.Result.Count > 0)
                 {
@@ -177,6 +177,7 @@ public class GuildManager : MonoBehaviour
         });
     }
 
+    //postì—ì„œëŠ” í´ë˜ìŠ¤ í˜•íƒœì˜ ì €ì¥í˜•íƒœê³ , guildëŠ” ë”•ì…”ë„ˆë¦¬ í˜•íƒœì˜ í…ŒìŠ¤í¬ ì €ì¥ë°©ì‹ìœ¼ë¡œ ì‚¬ìš©í•˜ì˜€ìŒ
     public async Task<Dictionary<string, object>> GetUserGuildInfo()
     {
         string guildID = await GetUserGuild();
@@ -211,12 +212,12 @@ public class GuildManager : MonoBehaviour
         
             if(!string.IsNullOrEmpty(guildID))
             {
-                Debug.Log($"ÇÃ·¹ÀÌ¾î°¡ ±æµå¿¡ °¡ÀÔµÇ¾îÀÖ½À´Ï´Ù : {guildID}");
+                Debug.Log($"í”Œë ˆì´ì–´ê°€ ê¸¸ë“œì— ê°€ì…ë˜ì–´ìˆìŠµë‹ˆë‹¤ : {guildID}");
                 return guildID;
             }
         }
 
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ ±æµå¿¡ °¡ÀÔµÇ¾îÀÖÁö ¾Ê½À´Ï´Ù.");
+        Debug.Log("í”Œë ˆì´ì–´ê°€ ê¸¸ë“œì— ê°€ì…ë˜ì–´ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
         return "";
     }
 
@@ -227,7 +228,7 @@ public class GuildManager : MonoBehaviour
 
         if(string.IsNullOrEmpty(guildID))
         {
-            Debug.Log("À¯Àú°¡ °¡ÀÔÇÑ ±æµå°¡ ¾ø½À´Ï´Ù.");
+            Debug.Log("ìœ ì €ê°€ ê°€ì…í•œ ê¸¸ë“œê°€ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -236,7 +237,7 @@ public class GuildManager : MonoBehaviour
 
         if(!guildSnapshot.Exists)
         {
-            Debug.Log("ÇØ´ç ±æµå°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.Log("í•´ë‹¹ ê¸¸ë“œê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -244,7 +245,7 @@ public class GuildManager : MonoBehaviour
 
         if(!members.Contains(userNickName))
         {
-            Debug.Log("À¯Àú°¡ ÇØ´ç ±æµåÀÇ ¸â¹ö°¡ ¾Æ´Õ´Ï´Ù.");
+            Debug.Log("ìœ ì €ê°€ í•´ë‹¹ ê¸¸ë“œì˜ ë©¤ë²„ê°€ ì•„ë‹™ë‹ˆë‹¤.");
             return;
         }
 
@@ -253,7 +254,7 @@ public class GuildManager : MonoBehaviour
         if(members.Count == 0)
         {
             await guildRef.DeleteAsync();
-            Debug.Log("±æµå°¡ »èÁ¦µÇ¾ú½À´Ï´Ù.");
+            Debug.Log("ê¸¸ë“œê°€ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
         }
         else
         {
@@ -261,7 +262,7 @@ public class GuildManager : MonoBehaviour
             {
                 {"members", members }
             });
-            Debug.Log("À¯Àú°¡ ±æµå¸¦ Å»ÅğÇß½À´Ï´Ù.");
+            Debug.Log("ìœ ì €ê°€ ê¸¸ë“œë¥¼ íƒˆí‡´í–ˆìŠµë‹ˆë‹¤.");
         }
 
         UpdateGuildID("");
@@ -273,7 +274,7 @@ public class GuildManager : MonoBehaviour
 
         if(string.IsNullOrEmpty(guildID))
         {
-            Debug.Log("À¯Àú°¡ ¼ÓÇÑ ±æµå°¡ ¾ø½À´Ï´Ù.");
+            Debug.Log("ìœ ì €ê°€ ì†í•œ ê¸¸ë“œê°€ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -282,14 +283,14 @@ public class GuildManager : MonoBehaviour
 
         if(!guildSnapshot.Exists)
         {
-            Debug.Log("±æµå Á¤º¸¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ê¸¸ë“œ ì •ë³´ë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
         string guildMaster = guildSnapshot.GetValue<string>("guildMaster");
         if(guildMaster != BaseManager.Firebase.NickName)
         {
-            Debug.Log("±æµå ¸¶½ºÅÍ¸¸ ±æµå¸¦ ÇØÃ¼ÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+            Debug.Log("ê¸¸ë“œ ë§ˆìŠ¤í„°ë§Œ ê¸¸ë“œë¥¼ í•´ì²´í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
             return;
         }
 
@@ -331,7 +332,7 @@ public class GuildManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"±æµå ID {guildID}°ªÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+            Debug.LogWarning($"ê¸¸ë“œ ID {guildID}ê°’ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
             return null;
         }
     }

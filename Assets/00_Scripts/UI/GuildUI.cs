@@ -135,7 +135,7 @@ public class GuildUI : BasePopUP
     {
         if(NowGuild == null)
         {
-            Debug.LogError("¼±ÅÃµÈ ±æµå°¡ ¾ø½À´Ï´Ù.");
+            Debug.LogError("ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
         await BaseManager.Guild.JoinGuild(NowGuild["guildID"].ToString());
@@ -147,7 +147,7 @@ public class GuildUI : BasePopUP
     {
         BaseManager.Guild.SetAnnouncement(AnnouncementText.text.Trim());
 
-        ToastPopUPManager.instance.Initalize("°øÁö»çÇ×ÀÌ ¾÷µ¥ÀÌÆ®µÇ¾ú½À´Ï´Ù.");
+        ToastPopUPManager.instance.Initalize("ê³µì§€ì‚¬í•­ì´ ì—…ë°ì´íŠ¸ ë˜ì—ˆìŠµë‹ˆë‹¤.");
     }
 
     private async void SetGuildData()
@@ -164,7 +164,7 @@ public class GuildUI : BasePopUP
         AnnouncementText.text = guildData["announcement"].ToString();
         List<object> membersObj = guildData["members"] as List<object>;
         List<string> members = membersObj.Select(m => m.ToString()).ToList();
-        GuildMemberCountText.text = string.Format("±æµå¿ø °ü¸® ({0}/25)", members.Count);
+        GuildMemberCountText.text = string.Format("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ({0}/25)", members.Count);
 
         MemberList = new List<string>(members);
         for (int i = 0; i < members.Count; i++)
@@ -186,7 +186,7 @@ public class GuildUI : BasePopUP
 
         bool GuildMaster = BaseManager.Firebase.NickName == guildData["guildMaster"].ToString();
         GuildDeleteText.text = 
-            GuildMaster ?  "±æµå ÇØÃ¼" : "±æµå Å»Åğ";
+            GuildMaster ?  "ê¸¸ë“œ í•´ì²´" : "ê¸¸ë“œ íƒˆí‡´";
 
         if (GuildMaster) GuildDeleteBtn.onClick.AddListener(() => DisabandGuild());
         else GuildDeleteBtn.onClick.AddListener(() => LeaveGuild());
@@ -201,7 +201,7 @@ public class GuildUI : BasePopUP
         if (Kick)
         {
             Destroy(MemberUI);
-            ToastPopUPManager.instance.Initalize("±æµå¿øÀ» Ãß¹æÇÏ¿´½À´Ï´Ù.");
+            ToastPopUPManager.instance.Initalize("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¹ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
@@ -209,14 +209,14 @@ public class GuildUI : BasePopUP
     {
         await BaseManager.Guild.LeaveGuild();
         ResetGuildUI();
-        ToastPopUPManager.instance.Initalize("±æµå¸¦ Å»ÅğÇÏ¿´½À´Ï´Ù.");
+        ToastPopUPManager.instance.Initalize("ê¸¸ë“œë¥¼ íƒˆí‡´í•˜ì˜€ìŠµë‹ˆë‹¤.");
     }
 
     public async void DisabandGuild()
     {
         await BaseManager.Guild.DisbandGuild();
         ResetGuildUI();
-        ToastPopUPManager.instance.Initalize("±æµå°¡ ÇØÃ¼µÇ¾ú½À´Ï´Ù.");
+        ToastPopUPManager.instance.Initalize("ê¸¸ë“œê°€ í•´ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
 
     }
 
