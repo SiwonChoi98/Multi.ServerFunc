@@ -137,7 +137,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     #region Guild
     public static async void InviteGuild()
     {
-        string Toast = string.Format("<color=#FFFF00>{0}</color>�Կ��� ��� ������ ��û�Ͽ����ϴ�.",
+        string Toast = string.Format("<color=#FFFF00>{0}</color>님에게 길드 가입을 요청하였습니다.",
        PhotonHelper.GetPlayerNickName(TargetPlayerIndex));
 
         ToastPopUPManager.instance.Initalize(Toast);
@@ -150,7 +150,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
     public void ReceiveGuildInvite(int inviterID, int targetPlayerID, string guildID)
     {
         string temp = string.Format(
-           "<color=#FFFF00>{0}</color>�Բ��� ��� ������ ��û�Ͽ����ϴ�.\n�����Ͻðڽ��ϱ�?",
+           "<color=#FFFF00>{0}</color>님께서 길드 가입을 요청하였습니다..\n수락하시겠습니까?",
            PhotonHelper.GetPlayerNickName(inviterID));
 
         Action YES = () =>
@@ -163,7 +163,7 @@ public class ActionHolder : MonoBehaviourPunCallbacks
 
         Action NO = () =>
         {
-            ToastPopUPManager.instance.Initalize("��� ���� ��û�� �����Ͽ����ϴ�.");
+            ToastPopUPManager.instance.Initalize("길드 가입 요청을 거절하였습니다.");
             photonView.RPC("IgnoreGuildInvite", PhotonHelper.GetPlayer(inviterID), targetPlayerID);
         };
 

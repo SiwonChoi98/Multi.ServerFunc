@@ -135,7 +135,7 @@ public class GuildUI : BasePopUP
     {
         if(NowGuild == null)
         {
-            Debug.LogError("���õ� ��尡 �����ϴ�.");
+            Debug.LogError("현재 길드가 없습니다.");
             return;
         }
         await BaseManager.Guild.JoinGuild(NowGuild["guildID"].ToString());
@@ -164,7 +164,7 @@ public class GuildUI : BasePopUP
         AnnouncementText.text = guildData["announcement"].ToString();
         List<object> membersObj = guildData["members"] as List<object>;
         List<string> members = membersObj.Select(m => m.ToString()).ToList();
-        GuildMemberCountText.text = string.Format("���� ���� ({0}/25)", members.Count);
+        GuildMemberCountText.text = string.Format("길드원 관리 ({0}/25)", members.Count);
 
         MemberList = new List<string>(members);
         for (int i = 0; i < members.Count; i++)
@@ -201,7 +201,7 @@ public class GuildUI : BasePopUP
         if (Kick)
         {
             Destroy(MemberUI);
-            ToastPopUPManager.instance.Initalize("������ �߹��Ͽ����ϴ�.");
+            ToastPopUPManager.instance.Initalize("길드원을 추방하였습니다.");
         }
     }
 
