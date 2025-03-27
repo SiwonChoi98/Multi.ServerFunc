@@ -170,10 +170,12 @@ public class FirebaseManager : MonoBehaviourPunCallbacks
         DocumentReference userRef = db.Collection("USERS").Document(UserID);
         Dictionary<string, object> userData = new Dictionary<string, object>
         {
+            //기본 Defult 데이터
             { "NICKNAME", nickName },
             //닉네임이 언제 들어갔는지 시간 값
             { "CREATED_AT", FieldValue.ServerTimestamp },
-            { "GUILDID", "" }
+            { "GUILDID", "" },
+            { "LEVEL", "1"}
         };
 
         userRef.SetAsync(userData).ContinueWithOnMainThread(task =>
