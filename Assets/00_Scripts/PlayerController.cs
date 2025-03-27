@@ -1,12 +1,13 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController;
     private Animator animator;
-
+    
     //-9.81f : UNITY에서 기본이라고 말했음
     private float gravity = -9.81f;
     private Vector3 velocity;
@@ -21,7 +22,6 @@ public class PlayerController : MonoBehaviour
         if(isMinePhoton())
         {
             OwnerActorNumber = actorNumber;
-            
             //AllBuffered 은 ALL 과 유사하지만 AllBuffered는 아직 방에 참여하지 않은 유저도 보관을 한다.
             //여기서 먼저 호출을 해주면 이후에 들어오는 플레이어도 RPC가 다시 실행됨 
             //ALL은 현재 기점으로 접속중인 플레이어만 호출됨
