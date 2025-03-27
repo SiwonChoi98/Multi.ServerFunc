@@ -46,15 +46,15 @@ public class RankingManager : MonoBehaviour
     public void UpdatePlayerLevel(int newLevel)
     {
         DocumentReference userRef = BaseManager.Firebase.db.Collection("USERS").Document(BaseManager.Firebase.UserID);
-        userRef.UpdateAsync("LEVE", newLevel).ContinueWithOnMainThread(task =>
+        userRef.UpdateAsync("LEVEL", newLevel).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
-                Debug.Log($"À¯ÀúÀÇ ·¹º§ÀÌ {newLevel}·Î º¯°æµÇ¾ú½À´Ï´Ù.");
+                Debug.Log($"ìœ ì €ì˜ ë ˆë²¨ì´ {newLevel}ë¡œ ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤.");
             }
             else
             {
-                Debug.LogError("À¯Àú ·¹º§ ¾÷µ¥ÀÌÆ®¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù.");
+                Debug.LogError("ìœ ì € ë ˆë²¨ ì—…ë°ì´íŠ¸ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
             }
         });
     }
