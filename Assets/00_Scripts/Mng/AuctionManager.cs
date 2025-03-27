@@ -37,8 +37,8 @@ public class AuctionManager : MonoBehaviour
              {"count", countValue},
              {"acquiredAt", FieldValue.ServerTimestamp}
          };
-        // MergeAll - ±âÁ¸ µ¥ÀÌÅÍ´Â À¯ÁöÇÏ°í, »õ·Î¿î ÇÊµå¸¸ ¾÷µ¥ÀÌÆ®
-        // MergeFields - (string) <- ¸Å°³º¯¼ö¿¡ ´ëÇÑ °ª¸¸ º¯°æ
+        // MergeAll - ê¸°ì¡´ ë°ì´í„°ëŠ” ìœ ì§€í•˜ê³ , ìƒˆë¡œìš´ í•„ë“œë§Œ ì—…ë°ì´íŠ¸
+        // MergeFields - (string) <- ë§¤ê°œë³€ìˆ˜ì— ëŒ€í•œ ê°’ë§Œ ë³€ê²½
         await itemRef.SetAsync(itemData, SetOptions.MergeAll);
     }
     public async Task<bool> CompleteAuction(string auctionID)
@@ -50,7 +50,7 @@ public class AuctionManager : MonoBehaviour
             DocumentSnapshot snapshot = transaction.GetSnapshotAsync(auctionRef).Result;
             if (!snapshot.Exists)
             {
-                Debug.LogError("¿Á¼Ç Ã³¸® ½ÇÆĞ");
+                Debug.LogError("ì˜¥ì…˜ ì²˜ë¦¬ ì‹¤íŒ¨");
                 return Task.FromResult(false);
             }
             string sellerID = snapshot.GetValue<string>("seller_id");
@@ -66,21 +66,21 @@ public class AuctionManager : MonoBehaviour
             {
                 BaseManager.Firebase.m_SendMessage(
                 highestBidder,
-                 $"{itemName} ¾ÆÀÌÅÛÀ» {finalPrice}¿¡ ±¸¸ÅÇÏ¿´½À´Ï´Ù!",
+                 $"{itemName} ì•„ì´í…œì´ {finalPrice}ì— íŒë§¤ë˜ì—ˆìŠµë‹ˆë‹¤.!",
                     "Admin");
 
                 GrantItemToBuyer(highestBidderID, itemName);
 
                 BaseManager.Firebase.m_SendMessage(
                sellerNick,
-               $"{itemName} ¾ÆÀÌÅÛÀÌ {finalPrice}¿¡ ÆÇ¸ÅµÇ¾ú½À´Ï´Ù!",
+               $"{itemName} ì•„ì´í…œì„ {finalPrice}ì— êµ¬ë§¤í•˜ì˜€ìŠµë‹ˆë‹¤.!",
                "Admin");
             }
             else
             {
                 BaseManager.Firebase.m_SendMessage(
                           sellerNick,
-                          $"{itemName} ¾ÆÀÌÅÛÀÌ ÆÇ¸ÅµÇÁö ¸øÇÏ¿´½À´Ï´Ù.",
+                          $"{itemName} ì•„ì´í…œì´ íŒë§¤ë˜ì§€ ëª»í•˜ì˜€ìŠµë‹ˆë‹¤.",
                           "Admin");
 
                 GrantItemToBuyer(sellerID, itemName);
@@ -99,7 +99,7 @@ public class AuctionManager : MonoBehaviour
             DocumentSnapshot snapshot = transaction.GetSnapshotAsync(auctionRef).Result;
             if (!snapshot.Exists)
             {
-                Debug.LogError("¿Á¼Ç¿¡ Exists°¡ ½ÇÇàµÇÁö ¾Ê¾Ò½À´Ï´Ù.");
+                Debug.LogError("ì˜¥ì…˜ì— Existsê°€ ì‹¤í–‰ë˜ì§€ ì•Šìœ¼ì…¨ìŠµë‹ˆë‹¤.");
                 return Task.FromResult(false);
             }
             int buyoutPrice = snapshot.GetValue<int>("buyout_price");
@@ -110,7 +110,7 @@ public class AuctionManager : MonoBehaviour
                 {"highest_bidder_ID" ,buyerID}
             });
 
-            Debug.Log($"¿Á¼Ç {auctionID}Ç°¸ñÀÌ ÆÇ¸Å°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+            Debug.Log($"ì˜¥ì…˜ {auctionID}í’ˆëª©ì´ íŒë§¤ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
             return Task.FromResult(true);
         });
     }
@@ -118,22 +118,23 @@ public class AuctionManager : MonoBehaviour
     public async Task<bool> PlaceBid(string auctionID, string bidderNick, string bidderID,int currentPrice)
     {
         DocumentReference auctionRef = BaseManager.Firebase.db.Collection("AUCTIONS").Document(auctionID);
-        // GetSnapshotAsync -> Ãæµ¹ °¡´É¼º ³ô´Ù.
-        // RunTransactionAsync -> µ¿½Ã ¼öÁ¤ ¹æÁö, µ¥ÀÌÅÍ Á¤ÇÕ¼º À¯Áö
+        // GetSnapshotAsync -> ì¶©ëŒ ê°€ëŠ¥ì„±ì´ ë†’ë‹¤.
+        // RunTransactionAsync -> ë™ì‹œ ìˆ˜ì •ì„ ë°©ì§€, ë°ì´í„° ì •í•©ì„± ìœ ì§€
+        // ê²½ë§¤ì¥ì€ ë§ì€ ìœ ì €ë“¤ì´ ì‚¬ìš©í•˜ë‹ˆê¹Œ ë™ì‹œ ìˆ˜ì • ì¶©ëŒì´ ë°œìƒí•  ìˆ˜ ìˆì–´ì„œ RunTransactionAsync ì‚¬ìš©
         return await BaseManager.Firebase.db.RunTransactionAsync(transaction =>
         {
             DocumentSnapshot snapshot = transaction.GetSnapshotAsync(auctionRef).Result;
             if (!snapshot.Exists)
             {
-                Debug.LogError("¿Á¼Ç Exists¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù.");
+                Debug.LogError("ì˜¥ì…˜ Existsì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤.");
                 return Task.FromResult(false);
             }
 
-            int currentprice = snapshot.GetValue<int>("current_price");
+            int currentprice = snapshot.GetValue<int>("current_price"); 
 
             if(currentPrice <= currentprice)
             {
-                Debug.Log("ÀÔÂû°¡°¡ ÃÖ½Å ÀÔÂû°¡º¸´Ù ³·½À´Ï´Ù.");
+                Debug.Log("ì…ì°°ê°€ê°€ ìµœì‹  ì…ì°°ê°€ë³´ë‹¤ ë‚®ìŠµë‹ˆë‹¤.");
                 return Task.FromResult(false);
             }
 
@@ -143,7 +144,7 @@ public class AuctionManager : MonoBehaviour
                 {"highest_bidder", bidderNick },
                 {"highest_bidder_ID",  bidderID}
             });
-            Debug.Log($"¼º°øÀûÀ¸·Î {auctionID}Ç°¸ñÀÇ ÀÔÂûÀ» ¿Ï·áÇÏ¿´½À´Ï´Ù.");
+            Debug.Log($"ì„±ê³µì ìœ¼ë¡œ {auctionID}í’ˆëª©ì˜ ì…ì°°ì„ ì™„ë£Œí•˜ì˜€ìŠµë‹ˆë‹¤.");
             return Task.FromResult(true);
         });
     }
@@ -198,10 +199,10 @@ public class AuctionManager : MonoBehaviour
     }
     public async void CreateAuctionItem(string itemName, string sellerNickName,string sellerID, int buyoutPrice)
     {
-        // UTC - ÇùÁ¤ ¼¼°è½Ã
-        // UTC+9
-        string auctionId = Guid.NewGuid().ToString();
-        DateTime endTime = DateTime.UtcNow.AddSeconds(10);
+        // UTC - í˜‘ì • ì„¸ê³„ì‹œ
+        // UTC+9 - ìš°ë¦¬ë‚˜ë¼ ì‹œê°„
+        string auctionId = Guid.NewGuid().ToString(); //ëœë¤í•œ ê³ ìœ  ì•„ì´ë”” ìƒì„±
+        DateTime endTime = DateTime.UtcNow.AddSeconds(10); //1440 - 1day 
         int startingPrice = buyoutPrice / 2;
         Dictionary<string, object> auctionData = new Dictionary<string, object>
         {
@@ -215,12 +216,12 @@ public class AuctionManager : MonoBehaviour
             {"highest_bidder", "" },
             {"highest_bidder_ID","" },
             {"end_time", Timestamp.FromDateTime(endTime) },
-            {"created_at", Timestamp.FromDateTime(DateTime.UtcNow) }
+            {"created_at", Timestamp.FromDateTime(DateTime.UtcNow) } //UTCNOW - êµ­ì œ í‘œì¤€ //NOW - ë‚˜ë¼ ê¸°ì¤€
         };
 
         DocumentReference auctionRef = BaseManager.Firebase.db.Collection("AUCTIONS").Document(auctionId);
         await auctionRef.SetAsync(auctionData);
 
-        Debug.Log($"°æ¸ÅÀå¿¡ ¾ÆÀÌÅÛÀÌ µî·ÏµÇ¾ú½À´Ï´Ù: {auctionId}");
+        Debug.Log($"ê²½ë§¤ì¥ì— ì•„ì´í…œì´ ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.: {auctionId}");
     }
 }

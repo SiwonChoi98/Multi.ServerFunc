@@ -53,7 +53,7 @@ public class AuctionUI : BasePopUP
     {
         if(m_Data == null)
         {
-            ToastPopUPManager.instance.Initalize("ÀÔÂûÇÒ Ç°¸ñÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+            ToastPopUPManager.instance.Initalize("ì…ì°°í•  í’ˆëª©ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
             return;
         }
         BidPopUP.SetActive(true);
@@ -68,7 +68,7 @@ public class AuctionUI : BasePopUP
     {
         if (m_Data == null)
         {
-            ToastPopUPManager.instance.Initalize("±¸¸ÅÇÒ Ç°¸ñÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
+            ToastPopUPManager.instance.Initalize("êµ¬ë§¤í•  í’ˆëª©ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
             return;
         }
 
@@ -114,7 +114,7 @@ public class AuctionUI : BasePopUP
     {
         if(int.Parse(temp) <= int.Parse(m_Data.currentPrice))
         {
-            Debug.LogError("°æ¸ÅÇ°¸ñÀÇ ¹°°Çº¸´Ù ³·Àº ±İ¾×À» ¼³Á¤ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("ê²½ë§¤í’ˆëª©ì˜ ë¬¼ê±´ë³´ë‹¤ ë‚®ì€ ê¸ˆì•¡ì„ ì„¤ì •í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             Bid_InputField.text = m_Data.currentPrice;
             return;
         }
@@ -179,7 +179,7 @@ public class AuctionUI : BasePopUP
         if (mainObj == null) return;
         if(string.IsNullOrEmpty(itemPriceInputField.text))
         {
-            Debug.LogError("¾ÆÀÌÅÛ °¡°İÀ» ÀÔ·ÂÇÏ¼¼¿ä.");
+            Debug.LogError("ì•„ì´í…œ ê°€ê²©ì„ ì…ë ¥í•˜ì„¸ìš”.");
             return;
         }
         BaseManager.Auction.CreateAuctionItem(
@@ -191,7 +191,7 @@ public class AuctionUI : BasePopUP
         SetItemPopUP.SetActive(false);
         GetAuctionDatas();
         BaseManager.Inventory.RemoveItem(mainObj.Name, 1);
-        ToastPopUPManager.instance.Initalize("¾ÆÀÌÅÛÀ» µî·ÏÇÏ¿´½À´Ï´Ù!");
+        ToastPopUPManager.instance.Initalize("ì•„ì´í…œì„ ë“±ë¡í•˜ì˜€ìŠµë‹ˆë‹¤.!");
     }
 
     private void SetItem(ITEM_OBJ obj)

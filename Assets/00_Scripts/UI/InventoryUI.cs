@@ -13,6 +13,8 @@ public class InventoryUI : BasePopUP
         if(instance == null)
             instance = this;
 
+        //BaseManager.Inventory.AddItem("Fish01", 3);
+        
         BaseManager.Inventory.LoadInventory(() => GetInventoryData());
 
         base.Awake();

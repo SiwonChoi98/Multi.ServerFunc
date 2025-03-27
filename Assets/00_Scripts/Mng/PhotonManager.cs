@@ -47,8 +47,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
     // RPC -> Remote Procedure call 
     // RaiseEvent
-    // ���� -> RPC = ���� �ش� ��ü�� PhotonView�� ���� ȣ��
-    // ���� -> RaiseEvent = �̺�Ʈ ��� ( Photon ������ ���� ���޵� )
+    // 서버 -> RPC = 직접 해당 객체의 PhotonView를 통해 호출 //특정 오브젝트의 일부분 동기화가 필요할때 RPC 사용
+    // 서버 -> RaiseEvent = 이벤트 기반 ( Photon 서버를 거쳐 전달됨 ) //게임 상태 공유할때는 보통 RaiseEvent 사용
     public static void NotifyAuctionCompleted(string auctionID, string winnberNick)
     {
         object[] content = new object[] { auctionID, winnberNick };
@@ -59,7 +59,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public static void NotifyBidPlaced(string auctionId, string bidderNick, int currentPrice)
     {
         object[] content = new object[] { auctionId, bidderNick, currentPrice };
-        // Photon������ RaiseEvent()�� object[] Ÿ���� �����͸� ������ �� ����.
+        // Photon에서는 RaiseEvent()가 object[] 타입의 데이터를 전달할 수 있음.
         RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(BID_EVENT, content, options, SendOptions.SendReliable);
     }
@@ -92,13 +92,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private void RemoveAuctionFromUI(string auctionID)
     {
         ToastPopUPManager.instance.Initalize(
-            string.Format("'{0}'�������� �ǸŵǾ����ϴ�.", auctionID));
+            string.Format("'{0}'아이템이 판매되었습니다.", auctionID));
     }
 
     private void UpdateAuctionUI(string auctionID, string bidderNick, string currentPrice)
     {
         ToastPopUPManager.instance.Initalize(
-            string.Format("'{1}'���� ������ ���� �Ͽ����ϴ�. ������:{2}",
+            string.Format("'{1}'님이 물건을 입찰을 하였습니다. 입찰가:{2}",
             auctionID, bidderNick, currentPrice));
     }
 }
